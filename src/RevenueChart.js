@@ -14,27 +14,39 @@ const screenWidth = Dimensions.get('screen').width;
 const RevenueChart = ({ selectedPeriod }) => {
 
   useEffect(() => {
-    setShowAllWeeks((prev) => !prev);
-    setSelectedData(null);
-    setSelectedIndex(null);
+
   }, [selectedPeriod])
   const [selectedData, setSelectedData] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [showAllWeeks, setShowAllWeeks] = useState(false);
 
-  // Full data (4 weeks)
-  const allWeeksData = [120000, 150000, 180000, 200000];
-  const allWeeksLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+  
 
   // Two weeks data
-  const twoWeeksData = [120000, 150000];
+  const twoWeeksData = [12000, 15000];
   const twoWeeksLabels = ['Week 1', 'Week 2'];
+  const twoWeeksSegments = 7;
+
+  // one weeks data
+  const oneWeeksData = [12000, 15000];
+  const oneWeeksLabels = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun'];
+  const oneWeeksSegments = 9;
+
+  // Three days data
+  const threeDaysData = [12000, 15000];
+  const threeDaysLabels = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun'];
+  const threeDaysSegments = 9;
+
+  // one days data
+  const oneDaysData = [12000, 15000];
+  const oneDaysLabels = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun'];
+  const oneDaysSegments = 9;
+
 
   const data = {
-    labels: showAllWeeks ? allWeeksLabels : twoWeeksLabels,
+    labels: twoWeeksLabels,
     datasets: [
       {
-        data: showAllWeeks ? allWeeksData : twoWeeksData,
+        data:  twoWeeksData,
         strokeWidth: 3,
         color: (opacity = 1) => `#3498db`,
       },
@@ -59,6 +71,9 @@ const RevenueChart = ({ selectedPeriod }) => {
       stroke: "white",
       fill: "#3498db",
     },
+    formatYLabel: (yValue) => {
+  return Number(yValue).toLocaleString(); // Adds commas
+},
     propsForVerticalLabels: {
       fontSize: 12,
     },
@@ -67,8 +82,9 @@ const RevenueChart = ({ selectedPeriod }) => {
 
   const handleDataPointClick = ({ index }) => {
     setSelectedIndex(index);
-    const revenue = showAllWeeks ? allWeeksData[index] : twoWeeksData[index];
-    setSelectedData(`Revenue: $${revenue}`);
+    const revenue = twoWeeksData[index];
+    setSelectedData(`Revenue: ${revenue.toLocaleString()}`);
+
   };
 
   return (
@@ -79,6 +95,7 @@ const RevenueChart = ({ selectedPeriod }) => {
         paddingHorizontal: 20,
         paddingVertical: 15,
         justifyContent: 'center',
+        borderRadius:10
       }}
     >
 
@@ -87,15 +104,17 @@ const RevenueChart = ({ selectedPeriod }) => {
           style={{
             backgroundColor: '#2c3e50',
             paddingVertical: 10,
-            paddingHorizontal: 15,
+            paddingHorizontal: 10,
             borderRadius: 12,
             alignSelf: 'flex-end',
+            borderColor: '#3498db',
+            borderWidth: 1,
           }}
         >
           <Text
             style={{
-              color: '#00c6ff',
-              fontSize: 15,
+              color: 'white',
+              fontSize: 13,
               fontWeight: 'bold',
               textAlign: 'center',
             }}
@@ -110,13 +129,13 @@ const RevenueChart = ({ selectedPeriod }) => {
           data={data}
           width={screenWidth}
           height={280}
-          yAxisLabel="$"
           chartConfig={chartConfig}
           bezier
           onDataPointClick={handleDataPointClick}
           withInnerLines
           withOuterLines
-          segments={selectedPeriod.num === 1 ? 10 : 5}
+          segments={7}
+          formatYLabel={value => Number(value).toLocaleString()}
           renderDotContent={({ x, y, index }) => {
             if (index === selectedIndex) {
               return (

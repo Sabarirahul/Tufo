@@ -16,8 +16,8 @@ const RevenueTrend = () => {
 
     const [firstClick, setfirstClick] = useState(true)
     const [selectedPeriod, setSelectedPeriod] = useState({
-        num: 1,
-        period: 'MONTH'
+        num: 2,
+        period: 'WEEKS'
     });
 
 
@@ -39,10 +39,10 @@ const RevenueTrend = () => {
             num: 2,
             period: 'WEEKS'
         },
-        {
-            num: 1,
-            period: 'MONTH'
-        }
+        // {
+        //     num: 1,
+        //     period: 'MONTH'
+        // }
     ]
 
     const handlPeriod = (item) => {
@@ -61,10 +61,10 @@ const RevenueTrend = () => {
                 Revenue Trend
             </Text>
 
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-            >
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+            }}>
                 {
                     allTimePeriod.map((item, index) => {
                         const isSelected =
@@ -75,17 +75,17 @@ const RevenueTrend = () => {
                             <TouchableOpacity
                                 key={index}
                                 style={{
-                                    backgroundColor: firstClick && isSelected ? '#4caf50' : isSelected ? '#1d311e' : '#1e1f1f', // green or default dark
+                                    backgroundColor:  isSelected ? '#4caf50' :  '#1e1f1f', // green or default dark
                                     borderRadius: 12,
-                                    paddingHorizontal: 16,
+                                    paddingHorizontal: 0,
                                     paddingVertical: 8,
                                     marginVertical: 8,
-                                    marginHorizontal: 4,
+                                    marginHorizontal: 8,
                                     flex: 1,
                                 }}
                                 onPress={() => handlPeriod(item)}
                             >
-                                <Text style={{ fontSize: 22, fontWeight: '400', color: 'white', marginBottom: 6, textAlign: 'center' }}>
+                                <Text style={{ fontSize: 22, fontWeight: '400', color: 'white', marginBottom: 2, textAlign: 'center' }}>
                                     {item.num.toLocaleString()}
                                 </Text>
                                 <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>{item.period}</Text>
@@ -93,7 +93,7 @@ const RevenueTrend = () => {
                         );
                     })
                 }
-            </ScrollView>
+            </View>
             <RevenueChart selectedPeriod={selectedPeriod} />
 
 
