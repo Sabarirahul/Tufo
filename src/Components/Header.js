@@ -32,7 +32,7 @@ const Header = () => {
                 resizeMode:'contain'
             }}
             
-                source={require('../src/Assets/Logo.png')}/>
+                source={require('../Assets/Logo.png')}/>
                 <TouchableOpacity style={{
                       backgroundColor: '#4caf50',
                     height: 35,

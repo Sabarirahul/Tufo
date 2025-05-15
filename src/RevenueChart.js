@@ -13,13 +13,11 @@ const screenWidth = Dimensions.get('screen').width;
 
 const RevenueChart = ({ selectedPeriod }) => {
 
-  useEffect(() => {
 
-  }, [selectedPeriod])
-  const [selectedData, setSelectedData] = useState(null);
+  const [selectedDataRevenue, setSelectedDataRevenue] = useState(null);
+  const [selectedDataPeriod, setSelectedDataPeriod] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  
 
   // Two weeks data
   const twoWeeksData = [12000, 15000];
@@ -27,26 +25,59 @@ const RevenueChart = ({ selectedPeriod }) => {
   const twoWeeksSegments = 7;
 
   // one weeks data
-  const oneWeeksData = [12000, 15000];
-  const oneWeeksLabels = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun'];
-  const oneWeeksSegments = 9;
+  const oneWeeksData = [12000, 14000, 13000, 16000, 17000, 15000, 18000]; // 7 values
+  const oneWeeksLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']; // 7 labels
+  const oneWeeksSegments = 5; 
+
 
   // Three days data
-  const threeDaysData = [12000, 15000];
-  const threeDaysLabels = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun'];
-  const threeDaysSegments = 9;
+  const threeDaysData = [12000, 15000, 18000];
+  const threeDaysLabels = ['Day 1', 'Day 2', 'Day 3'];
+  const threeDaysSegments = 7; // You can adjust this as needed
+
 
   // one days data
-  const oneDaysData = [12000, 15000];
-  const oneDaysLabels = ['Mon', 'Tue','Wed','Thu','Fri','Sat','Sun'];
-  const oneDaysSegments = 9;
+  const oneDaysData = [1200, 3400, 4200, 5100, 3900, 3000];
+  const oneDaysLabels = ['12AM', '4AM', '8AM', '12PM', '4PM', '8PM'];
+  const oneDaysSegments = 7;
+
+  const [chartLabels, setChartLabels] = useState(twoWeeksLabels);
+  const [chartData, setChartData] = useState(twoWeeksData);
+  const [chartSegment, setChartSegment] = useState(twoWeeksSegments);
+
+  useEffect(() => {
+
+    setSelectedDataPeriod(null);
+    setSelectedDataRevenue(null);
+    setSelectedIndex(null);
+    if (selectedPeriod.num === 1 && selectedPeriod.period === 'DAY') {
+      setChartLabels(oneDaysLabels);
+      setChartData(oneDaysData);
+      setChartSegment(oneDaysSegments)
+    }
+    else if (selectedPeriod.num === 3 && selectedPeriod.period === 'DAYS') {
+      setChartLabels(threeDaysLabels);
+      setChartData(threeDaysData);
+      setChartSegment(threeDaysSegments)
+    }
+    else if (selectedPeriod.num === 1 && selectedPeriod.period === 'WEEK') {
+      setChartLabels(oneWeeksLabels);
+      setChartData(oneWeeksData);
+      setChartSegment(oneWeeksSegments);
+    }
+    else if (selectedPeriod.num === 2 && selectedPeriod.period === 'WEEKS') {
+      setChartLabels(twoWeeksLabels);
+      setChartData(twoWeeksData);
+      setChartSegment(twoWeeksSegments);
+    }
+  }, [selectedPeriod])
 
 
   const data = {
-    labels: twoWeeksLabels,
+    labels: chartLabels,
     datasets: [
       {
-        data:  twoWeeksData,
+        data: chartData,
         strokeWidth: 3,
         color: (opacity = 1) => `#3498db`,
       },
@@ -72,8 +103,8 @@ const RevenueChart = ({ selectedPeriod }) => {
       fill: "#3498db",
     },
     formatYLabel: (yValue) => {
-  return Number(yValue).toLocaleString(); // Adds commas
-},
+      return Number(yValue).toLocaleString(); // Adds commas
+    },
     propsForVerticalLabels: {
       fontSize: 12,
     },
@@ -82,10 +113,22 @@ const RevenueChart = ({ selectedPeriod }) => {
 
   const handleDataPointClick = ({ index }) => {
     setSelectedIndex(index);
-    const revenue = twoWeeksData[index];
-    setSelectedData(`Revenue: ${revenue.toLocaleString()}`);
+    const revenue = chartData[index];
+    const period = chartLabels[index];
+    setSelectedDataRevenue(`Revenue: ${revenue?.toLocaleString?.() || 'N/A'}`);
+    setSelectedDataPeriod(period)
 
   };
+
+  const formatYLabel = (value) => {
+    try {
+      return Number(value).toLocaleString()
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+
 
   return (
     <SafeAreaView
@@ -95,11 +138,11 @@ const RevenueChart = ({ selectedPeriod }) => {
         paddingHorizontal: 20,
         paddingVertical: 15,
         justifyContent: 'center',
-        borderRadius:10
+        borderRadius: 10
       }}
     >
 
-      {selectedData && (
+      {(selectedDataRevenue && selectedDataPeriod) && (
         <View
           style={{
             backgroundColor: '#2c3e50',
@@ -119,7 +162,17 @@ const RevenueChart = ({ selectedPeriod }) => {
               textAlign: 'center',
             }}
           >
-            {selectedData}
+            {selectedDataPeriod}
+          </Text>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 13,
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}
+          >
+            {selectedDataRevenue}
           </Text>
         </View>
       )}
@@ -127,15 +180,15 @@ const RevenueChart = ({ selectedPeriod }) => {
       <ScrollView horizontal contentContainerStyle={{ alignItems: 'center' }}>
         <LineChart
           data={data}
-          width={screenWidth}
+          width={screenWidth-30}
           height={280}
           chartConfig={chartConfig}
           bezier
           onDataPointClick={handleDataPointClick}
           withInnerLines
           withOuterLines
-          segments={7}
-          formatYLabel={value => Number(value).toLocaleString()}
+          segments={chartSegment}
+          formatYLabel={value => formatYLabel(value)}
           renderDotContent={({ x, y, index }) => {
             if (index === selectedIndex) {
               return (

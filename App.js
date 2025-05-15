@@ -7,9 +7,10 @@ import {
   SafeAreaView,
   Platform
 } from 'react-native';
-import Header from './src/Header';
+import Header from './src/Components/Header';
 import DashboardOverView from './src/DashboardOverView';
 import RevenueTrend from './src/RevenueTrend';
+import Analytics from './src/Analytics';
 
 function App(){
 
@@ -20,20 +21,30 @@ function App(){
     }}>
       <SafeAreaView
         style={[
-          { backgroundColor:'#121212'},
+          { backgroundColor:'#121212',
+            height:StatusBar.currentHeight
+
+          },
+
         ]}>
         <StatusBar
           backgroundColor={'#121212'}
           barStyle={'light-content'}
         />
       </SafeAreaView>
+      <Header />
       <ScrollView style={{
       flex:1,
       backgroundColor:'#121212',
-    }}>
-      <Header />
+    }}
+    contentContainerStyle={{
+      paddingBottom:50
+    }}
+    >
+      
       <DashboardOverView />
       <RevenueTrend />
+      <Analytics />
 
 
       </ScrollView>
