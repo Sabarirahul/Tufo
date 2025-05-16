@@ -88,7 +88,7 @@ const RevenueChart = ({ selectedPeriod }) => {
     backgroundGradientFrom: '#1e1e1e',
     backgroundGradientTo: '#1e1e1e',
     color: (opacity = 1) => `#3698d9`,
-    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255,0.6)`,
     decimalPlaces: 0,
     yAxisLabel: "$",
     propsForBackgroundLines: {

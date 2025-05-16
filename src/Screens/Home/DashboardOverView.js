@@ -1,12 +1,16 @@
 import React from 'react';
 import {
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const DashboardOverView = () => {
+
+    const navigation = useNavigation();
 
     const cardData = [
         {
@@ -29,8 +33,15 @@ const DashboardOverView = () => {
         },
     ];
 
+    const handleActiveUsers = (item) => {
+        if(item.title === 'ACTIVE USERS'){
+          navigation.navigate('ActiveUsersList');
+        }
+    };
+
     const Card = ({ item }) => (
-        <View
+        <TouchableOpacity
+        activeOpacity={0.5}
             style={{
                 width: '100%',
                 backgroundColor: '#1e1f1f',
@@ -39,6 +50,7 @@ const DashboardOverView = () => {
                 paddingHorizontal: 18,
                 marginVertical: 10,
             }}
+            onPress={() => handleActiveUsers(item)}
         >
             <View style={{
                 flexDirection: 'row',
@@ -80,7 +92,7 @@ const DashboardOverView = () => {
                     vs last period
                 </Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 
     return (

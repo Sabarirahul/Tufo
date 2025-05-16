@@ -13,12 +13,26 @@ const Analytics = () => {
     // Sample data
     const [selectedIndex, setSelectedIndex] = useState(null);
     const barData = [
-        { value: 2, label: 'Cricket', frontColor: '#3498db' },
-        { value: 3, label: 'Football', frontColor: '#e74c3c' },
-        { value: 1.5, label: 'Tennis', frontColor: '#f1c40f' },
-        { value: 2.5, label: 'Basketball', frontColor: '#9b59b6' },
-        { value: 1, label: 'Badminton', frontColor: '#2ecc71' },
-    ];
+    { value: 3, label: 'Football', frontColor: 'rgba(231,76,60,0.8)', barBorderColor: 'rgba(231,76,60,1)' },
+    { value: 2.5, label: 'Basketball', frontColor: 'rgba(155,89,182,0.8)', barBorderColor: 'rgba(155,89,182,1)' },
+    { value: 2, label: 'Cricket', frontColor: 'rgba(46,116,163,0.8)', barBorderColor: 'rgba(46,116,163,1)' },
+    { value: 1.5, label: 'Tennis', frontColor: 'rgba(241,196,15,0.8)', barBorderColor: 'rgba(241,196,15,1)' },
+    { value: 1, label: 'Badminton', frontColor: 'rgba(46,204,113,0.8)', barBorderColor: 'rgba(46,204,113,1)' },
+];
+
+const generateYAxisLabels = (barData, step = 0.5, max = 0) => {
+  const highestValue = max || Math.max(...barData.map(item => item.value));
+  const labels = [];
+
+  for (let i = highestValue; i >= 0; i -= step) {
+    labels.push(i.toFixed(1)+ ' hrs');
+  }
+
+  return labels.reverse();
+};
+
+
+
 
     return (
         <ScrollView style={{ paddingHorizontal: 10, marginTop: 20 }}>
@@ -28,48 +42,56 @@ const Analytics = () => {
                 fontSize: 24,
                 marginBottom: 20,
             }}>
-                Sports Analytics (Playing Hours)
+                {/* Sports Analytics (Playing Hours) */}
             </Text>
 
             <View style={{
                 flex: 1,
                 backgroundColor: '#1e1e1e',
                 paddingHorizontal: 20,
-                paddingVertical: 15,
+                paddingVertical: 20,
                 justifyContent: 'center',
                 borderRadius: 10
             }}>
                 <BarChart
                     barWidth={40}
-                    noOfSections={4}
+                    barBorderWidth={2}
+                    noOfSections={generateYAxisLabels(barData, 0.5, 4).length - 1}
+                    stepValue={0.5}
                     maxValue={4}
-                    width={300}
+                    width={screenWidth-140}
                     data={barData.map((item, index) => ({
                         ...item,
                         onPress: () => setSelectedIndex(index),
                     }))}
+                    yAxisLabelTexts={generateYAxisLabels(barData, 0.5, 4)}
                     yAxisThickness={1}
                     xAxisThickness={1}
-                    yAxisColor={'rgba(255, 255, 255, 0.2)'}
-                    xAxisColor={'rgba(255, 255, 255, 0.2)'}
+                    yAxisColor={'rgba(255, 255, 255, 0.1)'}
+                    xAxisColor={'rgba(255, 255, 255, 0.1)'}
                     yAxisTextStyle={{ color: 'rgba(255, 255, 255, 0.6)' }}
                     xAxisLabelTextStyle={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 12 }}
-                    yAxisLabelPrefix=""
+                    yAxisLabelWidth={50}
+                    yAxisLabelPrefix="dd"
                     yAxisLabelSuffix=" hrs"
                     isAnimated
                     barBorderRadius={6}
                     // hideRules
                     rulesType="solid"
-                    rulesColor="gray"
+                    rulesColor="'rgba(255, 255, 255, 0.1)'"
                     rulesThickness={1}
                     frontColor="skyblue"
                     renderTooltip={() =>
                         selectedIndex !== null ? (
                             <View
                                 style={{
-                                    padding: 6,
-                                    backgroundColor: '#333',
-                                    borderRadius: 8,
+                                    backgroundColor: '#2c3e50',
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 10,
+                                    borderRadius: 12,
+                                    alignSelf: 'flex-end',
+                                    borderColor: '#3498db',
+                                    borderWidth: 1,
                                 }}
                             >
                                 <Text style={{ color: 'white', fontSize: 12 }}>
