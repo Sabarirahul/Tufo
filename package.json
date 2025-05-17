@@ -1,5 +1,5 @@
 {
-  "name": "HeyBoss",
+  "name": "Turfo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -19,6 +19,7 @@
     "react-native-gifted-charts": "^1.4.61",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-safe-area-context": "^5.4.0",
+    "react-native-screens": "^4.10.0",
     "react-native-svg": "^15.12.0",
     "react-native-svg-transformer": "^1.5.1",
     "react-native-vector-icons": "^10.2.0",

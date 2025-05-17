@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
+import { theme } from '../../Styles/themes';
 
 const screenWidth = Dimensions.get('screen').width;
 

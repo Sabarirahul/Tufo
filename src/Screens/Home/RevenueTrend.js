@@ -10,6 +10,7 @@ import {
     Dimensions
 } from 'react-native';
 import RevenueChart from './RevenueChart';
+import { theme } from '../../Styles/themes';
 
 const RevenueTrend = () => {
 
@@ -75,7 +76,7 @@ const RevenueTrend = () => {
                             <TouchableOpacity
                                 key={index}
                                 style={{
-                                    backgroundColor:  isSelected ? '#4caf50' :  '#1e1f1f', // green or default dark
+                                    backgroundColor:  isSelected ? theme.secondaryColor :  theme.primaryColor, // green or default dark
                                     borderRadius: 12,
                                     paddingHorizontal: 0,
                                     paddingVertical: 8,

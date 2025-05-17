@@ -1,4 +1,4 @@
-package com.heyboss
+package com.turfo
 
 import android.app.Application
 import com.facebook.react.PackageList

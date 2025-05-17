@@ -6,6 +6,7 @@ import {
     Dimensions
 } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
+import { theme } from '../../Styles/themes';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -42,7 +43,7 @@ const generateYAxisLabels = (barData, step = 0.5, max = 0) => {
                 fontSize: 24,
                 marginBottom: 20,
             }}>
-                {/* Sports Analytics (Playing Hours) */}
+                Sports Analytics (Playing Hours)
             </Text>
 
             <View style={{

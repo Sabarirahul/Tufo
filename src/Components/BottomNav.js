@@ -3,29 +3,34 @@ import { View, TouchableOpacity, Text, StyleSheet, Dimensions,Image } from 'reac
 import Icon from 'react-native-vector-icons/Ionicons';
 import { HOME, HOMEACTIVE } from '../Assets';
 import { useNavigation } from '@react-navigation/native';
+import { theme } from '../Styles/themes';
 
 const screenWidth = Dimensions.get('window').width;
 
-const navigation = useNavigation();
+
 const TABS = [
-  { label: 'Home', icon: 'home-outline' },
-  { label: 'Offer', icon: 'pricetags-outline' },
-  { label: 'Registration', icon: 'person-add-outline' },
-  { label: 'Contact', icon: 'call-outline' }
-]
+  { label: 'Dashboard', icon: 'grid-outline' },       
+  { label: 'Registers', icon: 'person-add-outline' },     
+  { label: 'Reports', icon: 'bar-chart-outline' },        
+  { label: 'AMC Services', icon: 'construct-outline' },   
+  { label: 'Profile', icon: 'person-circle-outline' }    
+];
+
 
 
 const BottomNav = ({routeName}) => {
-
+const navigation = useNavigation();
     const handleNavigation = (label) => {
-        if (label === 'Home') {
+        if (label === 'Dashboard') {
           navigation.navigate('Home');
-        } else if (label === 'Offer') {
-          navigation.navigate('Offer');
-        } else if (label === 'Registration') {
-          navigation.navigate('Registration');
-        } else if (label === 'Contact') {
-          navigation.navigate('Contact');
+        } else if (label === 'Registers') {
+          navigation.navigate('RegistersScreen');
+        } else if (label === 'Reports') {
+          navigation.navigate('ReportsScreen');
+        } else if (label === 'AMC Services') {
+          navigation.navigate('AMCServicesScreen');
+        }  else if (label === 'Profile') {
+          navigation.navigate('ProfileScreen');
         }
       };
   return (
@@ -42,7 +47,7 @@ const BottomNav = ({routeName}) => {
             <Icon
               name={tab.icon}
               size={24}
-              color={routeName === tab.label ? '#4caf50' : '#ccc'}
+              color={routeName === tab.label ? theme.secondaryColor : '#ccc'}
             /> 
             <Text style={[styles.label, routeName === tab.label && styles.activeLabel]}>
               {tab.label}

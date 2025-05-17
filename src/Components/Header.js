@@ -17,13 +17,14 @@ import Svg, {
   Use,
   Image,
 } from 'react-native-svg';
+import { theme } from '../Styles/themes';
 
 const Header = () => {
 
 
     return (
         <View style={{
-            backgroundColor: '#1a1a1a',
+            backgroundColor: theme.primaryColor,
             height: 80,
             width: '100%',
             flexDirection: 'row',
@@ -47,7 +48,7 @@ const Header = () => {
   </Svg>
 </View>
             <TouchableOpacity style={{
-                backgroundColor: '#4caf50',
+                backgroundColor: theme.secondaryColor,
                 height: 35,
                 width: 50,
                 borderRadius: 20,

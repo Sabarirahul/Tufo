@@ -36,7 +36,7 @@ function Home(){
       <Analytics />
       
       </ScrollView>
-      <BottomNav routeName={'Home'}/>
+      <BottomNav routeName={'Dashboard'}/>
       
     </View>
   );
