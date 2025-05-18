@@ -10,9 +10,9 @@ const screenWidth = Dimensions.get('window').width;
 
 const TABS = [
   { label: 'Dashboard', icon: 'grid-outline' },       
-  { label: 'Registers', icon: 'person-add-outline' },     
-  { label: 'Reports', icon: 'bar-chart-outline' },        
-  { label: 'AMC Services', icon: 'construct-outline' },   
+  { label: 'Registers', icon: 'people' },     
+  { label: 'Offers', icon: 'pricetags-outline' },        
+  { label: 'AMC', icon: 'construct-outline' },   
   { label: 'Profile', icon: 'person-circle-outline' }    
 ];
 
@@ -20,19 +20,21 @@ const TABS = [
 
 const BottomNav = ({routeName}) => {
 const navigation = useNavigation();
+
     const handleNavigation = (label) => {
         if (label === 'Dashboard') {
           navigation.navigate('Home');
         } else if (label === 'Registers') {
           navigation.navigate('RegistersScreen');
-        } else if (label === 'Reports') {
-          navigation.navigate('ReportsScreen');
-        } else if (label === 'AMC Services') {
+        } else if (label === 'Offers') {
+          navigation.navigate('Offers');
+        } else if (label === 'AMC') {
           navigation.navigate('AMCServicesScreen');
         }  else if (label === 'Profile') {
           navigation.navigate('ProfileScreen');
         }
       };
+      
   return (
     <View style={styles.wrapper}>
       <View style={styles.curvedBackground} />
@@ -74,8 +76,8 @@ const styles = StyleSheet.create({
     width: screenWidth,
     height: 80,
     backgroundColor: '#1e1e1e',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,

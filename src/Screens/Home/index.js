@@ -29,6 +29,7 @@ function Home(){
     contentContainerStyle={{
       paddingBottom: 100
     }}
+    nestedScrollEnabled={true}
     >
       
       <DashboardOverView />

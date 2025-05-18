@@ -18,9 +18,12 @@ import Svg, {
   Image,
 } from 'react-native-svg';
 import { theme } from '../Styles/themes';
+import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
 
+
+    const navigation = useNavigation();
 
     return (
         <View style={{
@@ -49,14 +52,16 @@ const Header = () => {
 </View>
             <TouchableOpacity style={{
                 backgroundColor: theme.secondaryColor,
-                height: 35,
-                width: 50,
+                height: 30,
+                width: 30,
                 borderRadius: 20,
                 justifyContent: 'center',
                 alignItems: 'center'
 
-            }}>
-                <MaterialIcons name='person' size={25} color="white" />
+            }}
+            onPress={() => navigation.navigate('Notifications')}
+            >
+                <FontAwesome name='bell' size={18} color="white" />
             </TouchableOpacity>
         </View>
     )

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import BottomNav from '../../Components/BottomNav';
 
-const ReportsScreen = () => {
+const Offers = () => {
   return (
     <View
       style={{
@@ -19,9 +19,9 @@ const ReportsScreen = () => {
         }}>
         Coming Soon
       </Text>
-      <BottomNav routeName={'Reports'} />
+      <BottomNav routeName={'Offers'} />
     </View>
   );
 };
 
-export default ReportsScreen;
+export default Offers;

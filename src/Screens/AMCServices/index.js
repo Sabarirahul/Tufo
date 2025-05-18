@@ -19,7 +19,7 @@ const AMCServicesScreen = () => {
         }}>
         Coming Soon
       </Text>
-      <BottomNav routeName={'AMC Services'} />
+      <BottomNav routeName={'AMC'} />
     </View>
   );
 };

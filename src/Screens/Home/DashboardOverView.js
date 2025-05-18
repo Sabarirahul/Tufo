@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     TouchableOpacity,
@@ -7,10 +7,20 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { theme } from '../../Styles/themes';
 
 const DashboardOverView = () => {
 
     const navigation = useNavigation();
+
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState('today');
+    const [items, setItems] = useState([
+        { label: 'Today', value: 'today' },
+        { label: 'Last Week', value: 'last_week' },
+        { label: 'Last Month', value: 'last_month' }
+    ]);
 
     const cardData = [
         {
@@ -34,17 +44,17 @@ const DashboardOverView = () => {
     ];
 
     const handleActiveUsers = (item) => {
-        if(item.title === 'ACTIVE USERS'){
-          navigation.navigate('ActiveUsersList');
+        if (item.title === 'ACTIVE USERS') {
+            navigation.navigate('ActiveUsersList');
         }
     };
 
     const Card = ({ item }) => (
         <TouchableOpacity
-        activeOpacity={0.5}
+            activeOpacity={0.5}
             style={{
                 width: '100%',
-                backgroundColor: '#1e1f1f',
+                backgroundColor: theme.primaryColor,
                 borderRadius: 12,
                 paddingVertical: 16,
                 paddingHorizontal: 18,
@@ -97,13 +107,79 @@ const DashboardOverView = () => {
 
     return (
         <View style={{ paddingHorizontal: 10, marginVertical: 20 }}>
-            <Text style={{
-                fontWeight: '600',
-                color: 'white',
-                fontSize: 25,
-            }}>
-                Dashboard Overview
-            </Text>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    zIndex: 10,
+                    marginBottom:10
+                }}
+            >
+                <Text
+                    style={{
+                        fontWeight: '600',
+                        color: 'white',
+                        fontSize: 25,
+                        width:'65%'
+                    }}
+                >
+                    Dashboard
+                     Overview
+                </Text>
+
+                <View style={{ width: '35%' }}>
+                    <DropDownPicker
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
+                        placeholder="Select Range"
+                        style={{
+                            backgroundColor: theme.primaryColor,
+                            borderColor: open ? theme.secondaryColor : '#3a3a3a',
+                            height: 40,
+                            borderRadius: 10,
+                            paddingHorizontal: 10,
+                        }}
+                        dropDownContainerStyle={{
+                            backgroundColor: theme.primaryColor,
+                            borderColor: '#3a3a3a',
+                            borderRadius: 10,
+                            paddingVertical: 10,
+                            marginTop:2
+                        }}
+                        textStyle={{
+                            color: '#e0e0e0',
+                            fontSize: 14,
+                            fontWeight: '500',
+                        }}
+                        labelStyle={{
+                            color: '#e0e0e0',
+                            fontWeight: '500',
+                            fontSize: 14,
+                        }}
+                        selectedItemLabelStyle={{
+                            color: theme.secondaryColor,
+                            fontWeight: '600',
+                        }}
+                        listItemContainerStyle={{
+                            borderBottomColor: '#2a2a2a',
+                            borderBottomWidth: 0.5,
+                        }}
+                        arrowIconStyle={{
+                            tintColor: '#e0e0e0',
+                        }}
+                        tickIconStyle={{
+                            tintColor: theme.secondaryColor,
+                        }}
+                        zIndex={1000}
+                    />
+
+                </View>
+            </View>
 
             {cardData.map((item, index) => (
                 <Card key={index} item={item} />
