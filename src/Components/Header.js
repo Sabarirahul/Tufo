@@ -10,13 +10,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LOGO } from '../Assets';
 import { LOGOSVG } from '../Assets';
-import Svg, {
-  Use,
-  Image,
-} from 'react-native-svg';
 import { theme } from '../Styles/themes';
 import { useNavigation } from '@react-navigation/native';
 
@@ -33,7 +29,7 @@ const Header = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingHorizontal: 10
+            paddingHorizontal: 20
         }}>
 
             <View style={{
@@ -45,15 +41,10 @@ const Header = () => {
             }}>
                 <LOGOSVG height='100%' width='100%' preserveAspectRatio="xMidYMid meet" />
             </View>
-            <View>
-  <Svg width="80" height="80">
-     <Image href={LOGOSVG} />
-  </Svg>
-</View>
             <TouchableOpacity style={{
-                backgroundColor: theme.secondaryColor,
-                height: 30,
-                width: 30,
+                // backgroundColor: 'rgba(128, 128, 128, 0.2)',
+                height: 35,
+                width: 35,
                 borderRadius: 20,
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -61,7 +52,19 @@ const Header = () => {
             }}
             onPress={() => navigation.navigate('Notifications')}
             >
-                <FontAwesome name='bell' size={18} color="white" />
+
+                <View style={{
+                    width:8,
+                    height:8,
+                    borderRadius:5,
+                    backgroundColor:theme.secondaryColor,
+                    position:'absolute',
+                    right:8,
+                    top:5,
+                    zIndex:10
+                }}/>
+
+                <Ionicons name='notifications-outline' size={25} color="white" />
             </TouchableOpacity>
         </View>
     )

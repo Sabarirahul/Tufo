@@ -133,6 +133,7 @@ const RegistersScreen = () => {
               borderWidth: 1,
               borderColor: '#666',
             }}
+            
           >
             <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>View Details</Text>
           </TouchableOpacity>
@@ -163,12 +164,11 @@ const RegistersScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1, backgroundColor: theme.themeColor, paddingHorizontal: 10 }}>
-        <Text style={{ fontWeight: '600', color: 'white', fontSize: 25, width: '65%' }}>
+        <Text style={{ fontWeight: '600', color: 'white', fontSize: 25 }}>
           Registers
         </Text>
-        <Text style={{ color: '#ccc', fontSize: 15, width: '65%', marginVertical: 5 }}>
+        <Text style={{ color: '#ccc', fontSize: 15, marginVertical: 5 }}>
           Manage your venue bookings
         </Text>
 
@@ -180,7 +180,7 @@ const RegistersScreen = () => {
             backgroundColor: theme.primaryColor,
             borderRadius: 10,
             paddingHorizontal: 10,
-            marginTop: 15,
+            marginVertical: 15,
             height: 45,
             borderWidth: 1,
             borderColor: isFocused ? theme.secondaryColor : '#666',
@@ -194,12 +194,13 @@ const RegistersScreen = () => {
             onChangeText={setSearchText}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            onSubmitEditing={() => Keyboard.dismiss}
             returnKeyType="search"
             style={{ flex: 1, color: 'white', fontSize: 14 }}
           />
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
           {todayData.length === 0 && tomorrowData.length === 0 && aprilData.length === 0 ? (
             <View
               style={{
@@ -227,7 +228,6 @@ const RegistersScreen = () => {
 
         <BottomNav routeName={'Registers'} />
       </View>
-    </TouchableWithoutFeedback>
   );
 };
 

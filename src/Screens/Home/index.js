@@ -12,6 +12,7 @@ import DashboardOverView from './DashboardOverView';
 import RevenueTrend from './RevenueTrend';
 import Analytics from './Analytics';
 import BottomNav from '../../Components/BottomNav';
+import { theme } from '../../Styles/themes';
 
 function Home(){
 
@@ -19,15 +20,17 @@ function Home(){
   return (
     <View style={{
       flex:1,
-      backgroundColor:'#121212'
+      backgroundColor:theme.themeColor
     }}>
       <Header />
       <ScrollView style={{
       flex:1,
-      backgroundColor:'#121212',
+      backgroundColor:theme.themeColor,
     }}
     contentContainerStyle={{
-      paddingBottom: 100
+      paddingBottom: 120,
+      paddingHorizontal: 10, 
+      marginVertical: 20 
     }}
     nestedScrollEnabled={true}
     >

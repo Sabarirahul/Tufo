@@ -14,8 +14,6 @@ import { theme } from '../../Styles/themes';
 
 const RevenueTrend = () => {
 
-
-    const [firstClick, setfirstClick] = useState(true)
     const [selectedPeriod, setSelectedPeriod] = useState({
         num: 2,
         period: 'WEEKS'
@@ -48,12 +46,11 @@ const RevenueTrend = () => {
 
     const handlPeriod = (item) => {
         setSelectedPeriod(item)
-        setfirstClick(false)
     }
 
 
     return (
-        <View style={{ paddingHorizontal: 10, marginVertical: 20 }}>
+        <View style={{ marginVertical: 20 }}>
             <Text style={{
                 fontWeight: '500',
                 color: 'white',
@@ -65,6 +62,7 @@ const RevenueTrend = () => {
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                gap:8
             }}>
                 {
                     allTimePeriod.map((item, index) => {
@@ -81,7 +79,6 @@ const RevenueTrend = () => {
                                     paddingHorizontal: 0,
                                     paddingVertical: 8,
                                     marginVertical: 8,
-                                    marginHorizontal: 8,
                                     flex: 1,
                                 }}
                                 onPress={() => handlPeriod(item)}

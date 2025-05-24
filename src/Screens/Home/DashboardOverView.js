@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import {
     Text,
     TouchableOpacity,
@@ -9,18 +9,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { theme } from '../../Styles/themes';
+import { AppDataContext } from '../../AppDataContext/AppDataContext';
 
 const DashboardOverView = () => {
 
     const navigation = useNavigation();
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState('today');
-    const [items, setItems] = useState([
-        { label: 'Today', value: 'today' },
-        { label: 'Last Week', value: 'last_week' },
-        { label: 'Last Month', value: 'last_month' }
-    ]);
+     const { selectedRange, setSelectedRange } = useContext(AppDataContext);
 
     const cardData = [
         {
@@ -44,8 +39,8 @@ const DashboardOverView = () => {
     ];
 
     const handleActiveUsers = (item) => {
-        if (item.title === 'ACTIVE USERS') {
-            navigation.navigate('ActiveUsersList');
+        if (item.title === 'NO OF BOOKINGS') {
+            navigation.navigate('BookingList');
         }
     };
 
@@ -105,9 +100,11 @@ const DashboardOverView = () => {
         </TouchableOpacity>
     );
 
+    const ranges = ['Today', 'Weekly', 'Monthly'];
+
     return (
-        <View style={{ paddingHorizontal: 10, marginVertical: 20 }}>
-            <View
+        <View>
+            {/* <View
                 style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -115,20 +112,20 @@ const DashboardOverView = () => {
                     zIndex: 10,
                     marginBottom:10
                 }}
-            >
+            > */}
                 <Text
                     style={{
                         fontWeight: '600',
                         color: 'white',
                         fontSize: 25,
-                        width:'65%'
+                        // width:'65%'
                     }}
                 >
                     Dashboard
                      Overview
                 </Text>
 
-                <View style={{ width: '35%' }}>
+                {/* <View style={{ width: '35%' }}>
                     <DropDownPicker
                         open={open}
                         value={value}
@@ -178,8 +175,38 @@ const DashboardOverView = () => {
                         zIndex={1000}
                     />
 
-                </View>
-            </View>
+                </View> */}
+
+                 {/* Range Selection Buttons */}
+    <View style={{ flexDirection: 'row', gap: 8, marginVertical:10 }}>
+        {ranges.map((range) => (
+            <TouchableOpacity
+                key={range}
+                onPress={() => setSelectedRange(range)}
+                style={{
+                    backgroundColor:
+                        selectedRange === range ? theme.secondaryColor : 'rgba(128, 128, 128, 0.2)',
+                    paddingHorizontal: 12,
+                    paddingVertical: 10,
+                    borderRadius: 20,
+                    flex:1
+                }}
+            >
+                <Text
+                    style={{
+                        color: selectedRange === range ? 'black' : 'white',
+                        fontWeight:  '500',
+                        fontSize: 13,
+                        textAlign:'center'
+                    }}
+                >
+                    {range}
+                </Text>
+            </TouchableOpacity>
+        ))}
+    </View>
+                
+            {/* </View> */}
 
             {cardData.map((item, index) => (
                 <Card key={index} item={item} />
