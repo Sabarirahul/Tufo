@@ -102,7 +102,9 @@ const BottomNav = ({ routeName }) => {
       <ExitModal
         visible={exitModalVisible}
         onCancel={() => setExitModalVisible(false)}
-        onConfirm={() => BackHandler.exitApp()}
+        onConfirm={() => {
+          setExitModalVisible(false)
+          BackHandler.exitApp()}}
       />
 
     </>

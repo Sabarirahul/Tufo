@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { LOGO } from '../Assets';
 import { LOGOSVG } from '../Assets';
 import { theme } from '../Styles/themes';
 import { useNavigation } from '@react-navigation/native';
@@ -59,7 +58,7 @@ const Header = () => {
                     borderRadius:5,
                     backgroundColor:theme.secondaryColor,
                     position:'absolute',
-                    right:8,
+                    right:9,
                     top:5,
                     zIndex:10
                 }}/>

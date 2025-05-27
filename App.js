@@ -11,6 +11,9 @@ import Offers from './src/Screens/Offers';
 import AMCServicesScreen from './src/Screens/AMCServices';
 import ProfileScreen from './src/Screens/Profile';
 import Notifications from './src/Screens/Notifications';
+import SplashScreen from './src/Screens/SplashScreen/SplashScreen';
+import LoginScreen from './src/Screens/Login/Login';
+import OTPScreen from './src/Screens/Login/OTPScreen';
 import { theme } from './src/Styles/themes';
 
 const Stack = createStackNavigator();
@@ -22,7 +25,10 @@ function App() {
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.themeColor }} edges={['top', 'bottom']}>
         <AppProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="SplashScreen">
+            <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OTPScreen" component={OTPScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="BookingList" component={BookingList} options={{ headerShown: false }} />
             <Stack.Screen name="RegistersScreen" component={RegistersScreen} options={{ headerShown: false }} />
