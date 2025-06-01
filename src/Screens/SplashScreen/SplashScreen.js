@@ -8,20 +8,38 @@ import {
 import { SplashLogo } from '../../Assets';
 import { theme } from '../../Styles/themes';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SplashScreen() {
   const progressAnim = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
   useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = await AsyncStorage.getItem('authToken');
 
-    Animated.timing(progressAnim, {
-      toValue: 1,
-      duration: 2000,
-      useNativeDriver: false,
-    }).start(() => {
-      navigation.replace('LoginScreen');
-    });
+        // Animate progress bar
+        Animated.timing(progressAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: false,
+        }).start(() => {
+          if (token) {
+            navigation.replace('Home'); // Navigate to Home if token exists
+          } else {
+            navigation.replace('LoginScreen'); // Else go to Login
+          }
+        });
+
+      } catch (error) {
+        console.error('Token read error:', error);
+        navigation.replace('LoginScreen'); // In case of error, go to login
+      }
+    };
+
+    checkAuth();
   }, []);
 
   const widthInterpolated = progressAnim.interpolate({
@@ -30,19 +48,25 @@ function SplashScreen() {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.logoWrapper]}>
+    <LinearGradient
+      colors={['#1D1D1D', '#1D1D1D', '#1DD05D']}
+      locations={[0, 0.5, 1]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <View style={styles.logoWrapper}>
         <SplashLogo height='100%' width='100%' preserveAspectRatio="xMidYMid meet" />
       </View>
 
-      <Text style={[styles.titleText]}>
+      <Text style={styles.titleText}>
         Venue Control
       </Text>
 
       <View style={styles.progressBarWrapper}>
         <Animated.View style={[styles.progressBarFill, { width: widthInterpolated }]} />
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -54,13 +78,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoWrapper: {
-    height: 70,
-    width: 180,
+    height: 60,
+    width: 140,
     justifyContent: 'center',
     alignItems: 'center',
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#FFFFFF',
     fontStyle: 'italic',
@@ -69,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   progressBarWrapper: {
-    width: '45%',
+    width: '40%',
     height: 4,
     backgroundColor: '#D9D9D9',
     borderRadius: 2,

@@ -5,17 +5,24 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import { SplashLogo } from '../../Assets';
 import { theme } from '../../Styles/themes';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
 
 const OTPScreen = () => {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const route = useRoute();
+  const [otp, setOtp] = useState(['', '', '', '']);
+  const [loading, setLoading] = useState(false);
   const inputs = useRef([]);
   const navigation = useNavigation();
+  const { phoneNumber } = route.params;
 
   const handleChange = (text, index) => {
     if (/^\d$/.test(text)) {
@@ -24,7 +31,7 @@ const OTPScreen = () => {
       setOtp(newOtp);
 
       // Focus next input
-      if (index < 5) {
+      if (index < 3) {
         inputs.current[index + 1].focus();
       }
     } else if (text === '') {
@@ -40,16 +47,41 @@ const OTPScreen = () => {
     }
   };
 
-  const handleVerifyOTP = () => {
+
+  const handleVerifyOTP = async () => {
     const fullOtp = otp.join('');
-    if (fullOtp.length === 6) {
-      console.log('Verifying OTP:', fullOtp);
-      // Call API or navigate
-      navigation.navigate('Home');
+    if (fullOtp.length === 4) {
+      const payload = {
+        phoneNumber: phoneNumber,
+        otp: fullOtp,
+      };
+
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          'https://lhw5ipxwwfhgw5uarha7qnrtva0nghay.lambda-url.us-east-1.on.aws/api/v1/user/verify',
+          payload
+        );
+
+        if (response.status === 200 && response.data.success) {
+          const token = response.data.data.token;
+          await AsyncStorage.setItem('authToken', token);
+          console.log('OTP verified successfully:', response.data);
+          navigation.navigate('Home');
+        } else {
+          alert('OTP verification failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error verifying OTP:', error);
+        alert('An error occurred while verifying the OTP.');
+      } finally {
+        setLoading(false);
+      }
     } else {
-      alert('Please enter a valid 6-digit OTP');
+      alert('Please enter a valid 4-digit OTP');
     }
   };
+
 
   return (
     <KeyboardAvoidingView
@@ -85,19 +117,28 @@ const OTPScreen = () => {
         ))}
       </View>
 
-      <TouchableOpacity style={{
-              width: '100%',
-          backgroundColor: otp.join('').length === 6 ?  theme.secondaryColor : theme.primaryColor, // Spotify green
+      <TouchableOpacity
+        style={{
+          width: '85%',
+          backgroundColor:
+            otp.join('').length === 4 ? theme.secondaryColor : theme.primaryColor,
           paddingVertical: 14,
           borderRadius: 10,
-          borderWidth:2,
-          borderColor:theme.secondaryColor,
+          borderWidth: 2,
+          borderColor: theme.secondaryColor,
           alignItems: 'center',
-          marginTop:15
-            }}
-            disabled={otp.join('').length === 6 ? false : true}
-            onPress={handleVerifyOTP}>
-        <Text style={styles.buttonText}>Submit</Text>
+          marginTop: 15,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+        disabled={otp.join('').length !== 4 || loading}
+        onPress={handleVerifyOTP}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Submit</Text>
+        )}
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
@@ -118,12 +159,12 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     height: 60,
-    width: 190,
+    width: 140,
     justifyContent: 'center',
     alignItems: 'center',
   },
   logoText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#FFFFFF',
     fontStyle: 'italic',
@@ -147,7 +188,7 @@ const styles = StyleSheet.create({
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '96%',
+    width: '70%',
     marginBottom: 20,
   },
   otpBox: {
@@ -162,7 +203,7 @@ const styles = StyleSheet.create({
     width: 45,
   },
   button: {
-    width: '100%',
+    width: '80%',
     backgroundColor: theme.secondaryColor,
     paddingVertical: 14,
     borderRadius: 10,
